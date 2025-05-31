@@ -23,9 +23,10 @@ public abstract class ContaBancaria {
 		
 	}
 
-	public ContaBancaria(Agencia codigoAgencia, Pessoa primeiroTitular, Pessoa segundoTitular, Date dataAbertura,
+	public ContaBancaria(int id,Agencia codigoAgencia, Pessoa primeiroTitular, Pessoa segundoTitular, Date dataAbertura,
 			double saldoAtual, String senha, String bandeiraCartao, int numeroCartao, Date expiraCartao, int cvv,
 			SituacaoContaBancaria situacaoConta) {
+		this.id = id;
 		this.codigoAgencia = codigoAgencia;
 		this.primeiroTitular = primeiroTitular;
 		this.segundoTitular = segundoTitular;
@@ -131,6 +132,11 @@ public abstract class ContaBancaria {
 	public int getId() {
 		return id;
 	}
+	
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	public void vincularPrimeiraPessoa(Pessoa name) {
 		if(name != this.primeiroTitular) {
 			this.primeiroTitular = name;

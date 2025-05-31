@@ -11,7 +11,7 @@ public interface BancoDAO {
 	void insert(Banco  agencia);
 	void update(Banco  agencia);
 	void save(Banco agencia);
-	void delete(Banco enderecamento);
+	void delete(int id);
 	
 	
 }

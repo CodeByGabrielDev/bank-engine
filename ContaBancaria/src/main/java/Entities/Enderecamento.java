@@ -49,6 +49,9 @@ public class Enderecamento {
 	public String getCep() {
 		return cep;
 	}
+	public void setCep(String cep) {
+		this.cep = cep;
+	}
 
 	public String getEstado() {
 		return estado;
@@ -116,5 +119,12 @@ public class Enderecamento {
 		return false;
 
 	}
+
+	@Override
+	public String toString() {
+		return "Enderecamento [id=" + id + ", cep=" + cep + ", estado=" + estado + ", municipio=" + municipio
+				+ ", bairro=" + bairro + ", logradouro=" + logradouro + "]";
+	}
+	
 
 }

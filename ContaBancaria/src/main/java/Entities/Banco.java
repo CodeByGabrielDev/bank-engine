@@ -1,5 +1,8 @@
 package Entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Banco {
 
 	/*
@@ -13,21 +16,26 @@ public class Banco {
 	private int codigoFebraban;
 	private String nome;
 	private int mascaraDeUso;
+	private static List<Banco>listaDeBancos = new ArrayList<>();
 
 	public Banco() {
 		
 	}
 
-	public Banco(int codigoFebraban, String nome, int mascaraDeUso,int id) {
+	public Banco(int codigoFebraban, String nome, int mascaraDeUso) {
 		this.codigoFebraban = codigoFebraban;
-		this.id = id;
 		this.nome = nome;
 		this.mascaraDeUso = mascaraDeUso;
+		listaDeBancos.add(this);
 	}
 
 	public int getId() {
 		return id;
 	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	
 
 	public int getCodigoFebraban() {
 		return codigoFebraban;
@@ -56,6 +64,12 @@ public class Banco {
 
 	public void setMascaraDeUso(int mascaraDeUso) {
 		this.mascaraDeUso = mascaraDeUso;
+	}
+
+	@Override
+	public String toString() {
+		return "Banco [id=" + id + ", codigoFebraban=" + codigoFebraban + ", nome=" + nome + ", mascaraDeUso="
+				+ mascaraDeUso + "]";
 	}
 	
 	/*

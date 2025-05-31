@@ -11,5 +11,8 @@ Pagamentos de contas.
 	DEPOSITO,
 	SAQUE,
 	TRANSFERENCIA,
-	PAGAMENTO
+	PAGAMENTO;
+	
+	
+	
 }

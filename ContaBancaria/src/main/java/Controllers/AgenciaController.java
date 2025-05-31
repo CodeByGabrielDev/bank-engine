@@ -2,12 +2,13 @@ package Controllers;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import Connection.MySQL;
 import Entities.Agencia;
-import Entities.Banco;
 import Entities.Enderecamento;
 import Enum.SituacaoEmpresa;
 import Interfaces.AgenciaDAO;
@@ -16,13 +17,60 @@ public class AgenciaController implements AgenciaDAO {
 
 	@Override
 	public Agencia findAgencia(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		Connection conexao = MySQL.conectar();
+		Agencia ag = null;
+		Enderecamento end;
+		String instrucao = "SELECT * FROM agencia WHERE id = ?";
+
+		try (PreparedStatement ps = conexao.prepareStatement(instrucao)) {
+			ps.setInt(1, id);
+			ResultSet rs = ps.executeQuery();
+
+			if (rs.next()) {
+				BancoController bc = new BancoController();
+				EnderecamentoController endc = new EnderecamentoController();
+				end = new Enderecamento();
+
+				ag = new Agencia();
+
+				ag.setId(rs.getInt("id"));
+
+				ag.setCodigoFebraban(bc.findBanco(rs.getInt("id_banco")));
+				ag.setCep(endc.findEnderecamento(rs.getInt("id_enderecamento")));
+				ag.setNumeroEndereco(rs.getInt("numero_endereco"));
+				ag.setComplementoEndereco(rs.getString("complemento_endereco"));
+				ag.setTelefone(rs.getString("telefone"));
+				ag.setSituacao(SituacaoEmpresa.fromDescricao(rs.getString("situacao_empresa")));
+				
+			}
+
+		} catch (SQLException ex) {
+			throw new RuntimeException("Erro ao buscar enderecamento por id: " + ex.getMessage());
+		} finally {
+			MySQL.desconectar(conexao);
+		}
+		return ag;
+
 	}
 
 	@Override
 	public List<Agencia> findAll() {
-		// TODO Auto-generated method stub
+		Connection conexao = MySQL.conectar();
+		String instrucao = "SELECT * FROM agencia";
+		List<Agencia> lista = new ArrayList<>();
+		try (PreparedStatement ps = conexao.prepareStatement(instrucao)) {
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				Agencia agencia = new Agencia();
+				BancoController bc = new BancoController();
+				EnderecamentoController ec = new EnderecamentoController();
+
+			}
+		} catch (SQLException e) {
+			throw new RuntimeException("erro ao executar a query" + e.getMessage());
+		} finally {
+
+		}
 		return null;
 	}
 
@@ -47,6 +95,8 @@ public class AgenciaController implements AgenciaDAO {
 			comando.setString(5, agencia.getTelefone());
 			comando.setString(6, agencia.getSituacao().toString());
 
+			comando.execute();
+
 		} catch (SQLException e) {
 			throw new RuntimeException("erro ao executar o insert, por gentileza revise os commands:" + e.getMessage());
 		} finally {
@@ -57,8 +107,28 @@ public class AgenciaController implements AgenciaDAO {
 
 	@Override
 	public void update(Agencia agencia) {
-		// TODO Auto-generated method stub
+		Connection conexao = MySQL.conectar();
+		final String instrucao = "UPDATE agencia SET id_banco = ?,id_enderecamento = ?,numero_endereco = ?,complemento_endereco = ?,telefone = ?,situacao_empresa = ? where id = ?";
+		PreparedStatement comando;
 
+		try {
+			comando = conexao.prepareStatement(instrucao);
+			comando.setInt(1, agencia.getCodigoFebraban().getId()); // retorna o ID do OBJETO BANCO,
+			comando.setInt(2, agencia.getCep().getId());// retorna o ID do objeto ENDERECAMENTO, MUITO UTIL PARA
+														// REFERENCIAR OBJETOS
+			comando.setInt(3, agencia.getNumeroEndereco());
+			comando.setString(4, agencia.getComplementoEndereco());
+			comando.setString(5, agencia.getTelefone());
+			comando.setString(6, agencia.getSituacao().toString());
+			comando.setInt(7, agencia.getId());
+
+			comando.execute();
+
+		} catch (SQLException e) {
+			throw new RuntimeException("ERRO AO EXECUTAR O UPDATE, VERIFIQUE O COMANDO " + e.getMessage());
+		} finally {
+			MySQL.desconectar(conexao);
+		}
 	}
 
 	@Override
@@ -69,7 +139,20 @@ public class AgenciaController implements AgenciaDAO {
 
 	@Override
 	public void delete(Agencia agencia) {
-		// TODO Auto-generated method stub
+		Connection conexao = MySQL.conectar();
+		final String instrucao = "DELETE FROM agencia WHERE id = ?";
+
+		PreparedStatement comando;
+
+		try {
+			comando = conexao.prepareStatement(instrucao);
+			comando.setInt(1, agencia.getId());
+			comando.execute();
+		} catch (SQLException e) {
+			throw new RuntimeException("ERRO AO EXECUTAR O DELETE, VERIFIQUE OS COMANDOS " + e.getMessage());
+		} finally {
+			MySQL.desconectar(conexao);
+		}
 
 	}
 

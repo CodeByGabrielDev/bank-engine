@@ -18,29 +18,35 @@ public class EnderecamentoController implements EnderacamentoDAO {
 
 	
 	@Override
-	public Enderecamento findEnderecamento(int id) {
-	    Connection conexao = MySQL.conectar();
-	    Enderecamento e = null;
+		public Enderecamento findEnderecamento(int id) {
+		    Connection conexao = MySQL.conectar();
+		    Enderecamento e = null;
 
-	    String sql = "SELECT * FROM enderecamento WHERE id = ?";
+		    String instrucao = "SELECT * FROM enderecamento WHERE id = ?";
 
-	    try (PreparedStatement ps = conexao.prepareStatement(sql)) {
-	        ps.setInt(1, id);
-	        ResultSet rs = ps.executeQuery();
+		    try (PreparedStatement ps = conexao.prepareStatement(instrucao)) {
+		        ps.setInt(1, id);
+		        ResultSet rs = ps.executeQuery();
 
-	        if (rs.next()) {
-	            e = new Enderecamento();
-	            e.setId(rs.getInt("id"));
-	          
-	        }
+		        if (rs.next()) {
+		            e = new Enderecamento();
+		            e.setId(rs.getInt("id"));
+		            e.setCep(rs.getString("cep"));
+		            e.setEstado(rs.getString("estado"));
+		            e.setMunicipio(rs.getString("municipio"));
+		            e.setBairro(rs.getString("bairro"));
+		            e.setLogradouro(rs.getString("logradouro"));
+		        }
 
-	    } catch (SQLException ex) {
-	        throw new RuntimeException("Erro ao buscar enderecamento por id: " + ex.getMessage());
-	    } finally {
-	        MySQL.desconectar(conexao);
-	    }
-	    return e;
-	}
+		    } catch (SQLException ex) {
+		        throw new RuntimeException("Erro ao buscar enderecamento por id: " + ex.getMessage());
+		    } finally {
+		        MySQL.desconectar(conexao);
+		    }
+		    return e;
+		}
+
+	
 
 
 	@Override

@@ -1,6 +1,7 @@
 package Entities;
 
-import java.util.Date;
+import java.sql.Date;
+
 
 import Enum.SituacaoCliente;
 
@@ -25,10 +26,11 @@ b)	LISTA DE METODOS
 	
 	
 	
-	public PessoaJuridica(Enderecamento cep, int numeroEndereco, String compleEndereco, String telefone,
+	
+	public PessoaJuridica(int id, Enderecamento cep, int numeroEndereco, String compleEndereco, String telefone,
 			java.sql.Date clienteDesde, SituacaoCliente situacao, String cnpj, String razaoSocial, String nomeFantansia,
 			Date abertura, Pessoa dono, double capitalSocial) {
-		super(cep, numeroEndereco, compleEndereco, telefone, clienteDesde, situacao);
+		super(id, cep, numeroEndereco, compleEndereco, telefone, clienteDesde, situacao);
 		this.cnpj = cnpj;
 		this.dono = dono;
 		this.razaoSocial = razaoSocial;
@@ -37,7 +39,6 @@ b)	LISTA DE METODOS
 
 		this.capitalSocial = capitalSocial;
 	}
-	
 	public String getCnpj() {
 		return cnpj;
 	}

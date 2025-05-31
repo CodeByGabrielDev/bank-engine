@@ -16,11 +16,11 @@ public class ContaSalario extends ContaBancaria {
 
 	}
 
-	public ContaSalario(Agencia codigoAgencia, Pessoa primeiroTitular, Pessoa segundoTitular, Date dataAbertura,
+	public ContaSalario(int id, Agencia codigoAgencia, Pessoa primeiroTitular, Pessoa segundoTitular, Date dataAbertura,
 			double saldoAtual, String senha, String bandeiraCartao, int numeroCartao, Date expiraCartao, int cvv,
 			SituacaoContaBancaria situacaoConta, PessoaJuridica cnpj, double limite, ContaBancaria portabilidade,
 			TipoDeConta salario) {
-		super(codigoAgencia, primeiroTitular, segundoTitular, dataAbertura, saldoAtual, senha, bandeiraCartao,
+		super(id, codigoAgencia, primeiroTitular, segundoTitular, dataAbertura, saldoAtual, senha, bandeiraCartao,
 				numeroCartao, expiraCartao, cvv, situacaoConta);
 		this.cnpj = cnpj;
 		this.limite = limite;

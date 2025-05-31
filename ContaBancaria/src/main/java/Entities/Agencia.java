@@ -9,9 +9,8 @@ public class Agencia {
 	 * ii. Código FEBRABAN da instituição a qual está vinculada. • Deverá
 	 * referenciar a um Banco existente. iii. Número do CEP. • Deverá referenciar a
 	 * um Enderecamento existente. iv. Número do endereço. v. Complemento de
-	 * endereço. vi. Número do telefone. vii. Situação. • Ativo. • Inativo.
-	 * ID_BANCO FK
-	ID_ENDERECAMENTO
+	 * endereço. vi. Número do telefone. vii. Situação. • Ativo. • Inativo. ID_BANCO
+	 * FK ID_ENDERECAMENTO
 	 */
 
 	private int id;
@@ -23,19 +22,26 @@ public class Agencia {
 	private SituacaoEmpresa situacao;
 
 	public Agencia() {
-		
+
 	}
 
 	public Agencia(int id, Banco codigoFebraban, Enderecamento cep, int numeroEndereco, String complementoEndereco,
 			String telefone) {
-		super();
 		this.codigoFebraban = codigoFebraban;
 		this.cep = cep;
 		this.numeroEndereco = numeroEndereco;
 		this.complementoEndereco = complementoEndereco;
 		this.telefone = telefone;
 		this.situacao = SituacaoEmpresa.ativo;
-		
+
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public Banco getCodigoFebraban() {
@@ -86,10 +92,6 @@ public class Agencia {
 		this.situacao = situacao;
 	}
 
-	public int getId() {
-		return id;
-	}
-
 	public void desativar() {
 		if (this.situacao == SituacaoEmpresa.ativo) {
 			this.situacao = SituacaoEmpresa.inativo;
@@ -108,8 +110,5 @@ public class Agencia {
 			this.situacao = SituacaoEmpresa.ativo;
 		}
 	}
-	
-	
 
-	
 }
