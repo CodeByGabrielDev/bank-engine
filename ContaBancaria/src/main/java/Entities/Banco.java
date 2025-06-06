@@ -16,7 +16,7 @@ public class Banco {
 	private int codigoFebraban;
 	private String nome;
 	private int mascaraDeUso;
-	private static List<Banco>listaDeBancos = new ArrayList<>();
+
 
 	public Banco() {
 		
@@ -26,7 +26,6 @@ public class Banco {
 		this.codigoFebraban = codigoFebraban;
 		this.nome = nome;
 		this.mascaraDeUso = mascaraDeUso;
-		listaDeBancos.add(this);
 	}
 
 	public int getId() {

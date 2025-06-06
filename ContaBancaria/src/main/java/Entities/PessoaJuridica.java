@@ -25,12 +25,14 @@ b)	LISTA DE METODOS
 	private double capitalSocial;
 	
 	
+	public PessoaJuridica() {
+		
+	}
 	
-	
-	public PessoaJuridica(int id, Enderecamento cep, int numeroEndereco, String compleEndereco, String telefone,
+	public PessoaJuridica( Enderecamento cep, int numeroEndereco, String compleEndereco, String telefone,
 			java.sql.Date clienteDesde, SituacaoCliente situacao, String cnpj, String razaoSocial, String nomeFantansia,
 			Date abertura, Pessoa dono, double capitalSocial) {
-		super(id, cep, numeroEndereco, compleEndereco, telefone, clienteDesde, situacao);
+		super(0, cep, numeroEndereco, compleEndereco, telefone, clienteDesde, situacao);
 		this.cnpj = cnpj;
 		this.dono = dono;
 		this.razaoSocial = razaoSocial;
@@ -65,6 +67,9 @@ b)	LISTA DE METODOS
 	}
 	public Pessoa getDono() {
 		return dono;
+	}
+	public void setDono(Pessoa dono) {
+		this.dono = dono;
 	}
 	public void setNome(Pessoa dono) {
 		this.dono = dono;

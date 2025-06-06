@@ -7,24 +7,47 @@ import Enum.TipoDeConta;
 
 public  class ContaCorrente extends ContaBancaria {
 
+	private int id;
 	private TipoDeConta corrente;
 	
 	public ContaCorrente() {
 		
 	}
 	
-	/*
-	 * public boolean podeSacar(double valor)	Verifica se tem saldo ou limite para saque.
-public boolean verificarLimiteCredito()	Verifica se há limite de crédito disponível.
-	 */
+	
 	
 	public ContaCorrente(int id, Agencia codigoAgencia, Pessoa primeiroTitular, Pessoa segundoTitular,
 			Date dataAbertura, double saldoAtual, String senha, String bandeiraCartao, int numeroCartao,
 			Date expiraCartao, int cvv, SituacaoContaBancaria situacaoConta, TipoDeConta corrente) {
 		super(id, codigoAgencia, primeiroTitular, segundoTitular, dataAbertura, saldoAtual, senha, bandeiraCartao,
 				numeroCartao, expiraCartao, cvv, situacaoConta);
+		this.id = id;
 		this.corrente = TipoDeConta.CORRENTE;
 	}
+	
+	public ContaCorrente(Agencia codigoAgencia, Pessoa primeiroTitular, Pessoa segundoTitular,
+		    Date dataAbertura, double saldoAtual, String senha, String bandeiraCartao, int numeroCartao,
+		    Date expiraCartao, int cvv, SituacaoContaBancaria situacaoConta) {
+
+		    super(0, codigoAgencia, primeiroTitular, segundoTitular, dataAbertura, saldoAtual, senha, bandeiraCartao,
+		          numeroCartao, expiraCartao, cvv, situacaoConta);
+		    this.corrente = TipoDeConta.CORRENTE;
+		}
+
+	
+	
+
+	public int getId() {
+		return id;
+	}
+
+
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+
 
 	public boolean podeSacar(double saque) {
 		if(saque > super.getSaldoAtual()) {
@@ -41,6 +64,11 @@ public boolean verificarLimiteCredito()	Verifica se há limite de crédito dispo
 		if(super.getSaldoAtual() < 1000) {
 			System.out.println("Limite de R$600,00");
 		}
+	}
+
+	@Override
+	public String toString() {
+		return super.toString();
 	}
 	
 	

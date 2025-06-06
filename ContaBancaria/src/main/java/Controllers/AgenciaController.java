@@ -41,7 +41,7 @@ public class AgenciaController implements AgenciaDAO {
 				ag.setComplementoEndereco(rs.getString("complemento_endereco"));
 				ag.setTelefone(rs.getString("telefone"));
 				ag.setSituacao(SituacaoEmpresa.fromDescricao(rs.getString("situacao_empresa")));
-				
+
 			}
 
 		} catch (SQLException ex) {
@@ -77,12 +77,7 @@ public class AgenciaController implements AgenciaDAO {
 	@Override
 	public void insert(Agencia agencia) {
 		Connection conexao = MySQL.conectar();
-		/*
-		 * private int id; private Banco codigoFebraban; private Enderecamento cep; //
-		 * REFERENCIAR UM ENDERECAMENTO COM BASE NO CEP(CRIAR METODOS PARA REFERENCIAR)
-		 * private int numeroEndereco; private String complementoEndereco; private
-		 * String telefone; private SituacaoEmpresa situacao;
-		 */
+
 		final String instrucao = "INSERT INTO agencia(id_banco,id_enderecamento,numero_endereco,complemento_endereco,telefone,situacao_empresa)VALUES(?,?,?,?,?,?)";
 		PreparedStatement comando;
 

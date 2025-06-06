@@ -35,6 +35,18 @@ public class Agencia {
 		this.situacao = SituacaoEmpresa.ativo;
 
 	}
+	
+
+	public Agencia(Banco codigoFebraban, Enderecamento cep, int numeroEndereco, String complementoEndereco,
+			String telefone, SituacaoEmpresa situacao) {
+	
+		this.codigoFebraban = codigoFebraban;
+		this.cep = cep;
+		this.numeroEndereco = numeroEndereco;
+		this.complementoEndereco = complementoEndereco;
+		this.telefone = telefone;
+		this.situacao = situacao;
+	}
 
 	public int getId() {
 		return id;

@@ -1,18 +1,17 @@
 package Controllers;
 
 import java.sql.Connection;
+
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
-import com.mysql.cj.x.protobuf.MysqlxPrepare.Prepare;
-import com.mysql.cj.xdevapi.Statement;
+import com.mysql.cj.xdevapi.Result;
 
 import Connection.MySQL;
-import Entities.Agencia;
-import Entities.ContaCorrente;
 import Entities.Enderecamento;
 import Entities.Pessoa;
 import Entities.PessoaFisica;
@@ -24,8 +23,8 @@ import Interfaces.PessoaDAO;
 public class PessoaController implements PessoaDAO {
 
 	@Override
-	public Pessoa findPessoa(int id) {// select * from pessoa join enderecamento on pessoa.id_enderecamento_cep =
-										// enderecamento.id where pessoa.id = 1 ;
+	public Pessoa findPessoaFisica(int id) {// select * from pessoa join enderecamento on pessoa.id_enderecamento_cep =
+		// enderecamento.id where pessoa.id = 1 ;
 		Connection conexao = MySQL.conectar();
 		String select = "SELECT * FROM pessoa JOIN pessoa_fisica on pessoa.id = pessoa_fisica.id_pessoa where pessoa.id = ?";
 		PessoaFisica pessoa = null;
@@ -61,11 +60,136 @@ public class PessoaController implements PessoaDAO {
 	}
 
 	@Override
-	public List<Pessoa> findAll() {
+	public PessoaJuridica findPessoaJuridica(int id) {
+		Connection conexao = MySQL.conectar();
+		String select = "SELECT * FROM pessoa JOIN pessoa_juridica ON pessoa.id = pessoa_juridica.id_pessoa where pessoa_juridica.id_pessoa = ?";
+		PessoaJuridica pessoa = null;
+		try (PreparedStatement ps = conexao.prepareStatement(select)) {
+			ps.setInt(1, id);
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				pessoa = new PessoaJuridica();
+				EnderecamentoController ec = new EnderecamentoController();
+				PessoaController pc = new PessoaController();
+				pessoa.setId(rs.getInt("id"));
+				pessoa.setSituacao(SituacaoCliente.fromDescricao(rs.getString("situacao")));
+				pessoa.setCep(ec.findEnderecamento(rs.getInt("id_enderecamento_cep")));
+				pessoa.setNumeroEndereco(rs.getInt("numero_endereco"));
+				pessoa.setCompleEndereco(rs.getString("Comple_endereco"));
+				pessoa.setTelefone(rs.getString("telefone"));
+				pessoa.setClienteDesde(rs.getDate("cliente_desde"));
+
+				pessoa.setDono(pc.findPessoaFisica(rs.getInt("id_pessoa_fisica")));
+				pessoa.setCnpj(rs.getString("cnpj"));
+				pessoa.setRazaoSocial(rs.getString("razao_social"));
+				pessoa.setNomeFantansia(rs.getString("nome_fantasia"));
+				pessoa.setAbertura(rs.getDate("abertura"));
+				pessoa.setCapitalSocial(rs.getDouble("capital_social"));
+
+			}
+		} catch (SQLException e) {
+			throw new RuntimeException("Erro" + e.getMessage());
+		} finally {
+			MySQL.desconectar(conexao);
+		}
+		return pessoa;
+	}
+
+	@Override
+	public List<Pessoa> findAllPessoa() {
 		Connection conexao = MySQL.conectar();
 		String instrucao = "SELECT * FROM pessoa";
-		
-		return null;
+		List<Pessoa> lista = new ArrayList<>();
+		Pessoa pessoa = null;
+		try (PreparedStatement ps = conexao.prepareStatement(instrucao)) {
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				//
+				pessoa = new PessoaFisica();
+				EnderecamentoController ec = new EnderecamentoController();
+
+				pessoa.setId(rs.getInt("id"));
+				pessoa.setCep(ec.findEnderecamento(rs.getInt("id_enderecamento_cep")));
+				pessoa.setNumeroEndereco(rs.getInt("numero_endereco"));
+				pessoa.setCompleEndereco(rs.getString("comple_endereco"));
+				pessoa.setTelefone(rs.getString("telefone"));
+				pessoa.setClienteDesde(rs.getDate("cliente_desde"));
+				pessoa.setSituacao(SituacaoCliente.fromDescricao(rs.getString("situacao")));
+				lista.add(pessoa);
+			}
+		} catch (SQLException e) {
+			throw new RuntimeException("Erro ao executar a query" + e.getMessage());
+
+		} finally {
+			MySQL.desconectar(conexao);
+		}
+		return lista;
+	}
+
+	@Override
+	public List<PessoaFisica> findAllPessoaFisicas() {
+		Connection conexao = MySQL.conectar();
+		String instrucao = "SELECT * FROM pessoa_fisica";
+		List<PessoaFisica> lista = new ArrayList<>();
+		PessoaFisica pessoa = null;
+		try (PreparedStatement ps = conexao.prepareStatement(instrucao)) {
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				//
+				pessoa = new PessoaFisica();
+				EnderecamentoController ec = new EnderecamentoController();
+
+				pessoa.setId(rs.getInt("id_pessoa"));
+				pessoa.setCpf(rs.getString("cpf"));
+				pessoa.setNomeDeRegistro(rs.getString("nome_registro"));
+				pessoa.setNomeSocial(rs.getString("nome_social"));
+				pessoa.setDataDeNascimento(rs.getDate("data_nascimento"));
+				pessoa.setSexo(Sexo.fromDescricao(rs.getString("sexo")));
+				pessoa.setRendaMensal(rs.getDouble("renda_mensal"));
+				lista.add(pessoa);
+			}
+		} catch (SQLException e) {
+			throw new RuntimeException("Erro ao executar a query" + e.getMessage());
+
+		} finally {
+			MySQL.desconectar(conexao);
+		}
+		return lista;
+	}
+
+	@Override
+	public List<PessoaJuridica> findAllJuridicas() {
+		Connection conexao = MySQL.conectar();
+		String select = "SELECT * FROM pessoa_juridica";
+		List<PessoaJuridica> lista = new ArrayList<>();
+		PessoaJuridica pessoaJuridica = null;
+
+		try (PreparedStatement ps = conexao.prepareStatement(select)) {
+			ResultSet rs = ps.executeQuery();
+			pessoaJuridica = new PessoaJuridica();
+			PessoaController pc = new PessoaController();
+			while (rs.next()) {
+				/*
+				 * id_pessoa int(11) PK id_pessoa_fisica int(11) cnpj varchar(45) razao_social
+				 * varchar(45) nome_fantasia varchar(45) abertura date capital_social
+				 * decimal(10,2)
+				 */
+				pessoaJuridica.setDono(pc.findPessoaFisica(rs.getInt("id_pessoa_fisica")));
+				pessoaJuridica.setCnpj(rs.getString("cnpj"));
+				pessoaJuridica.setRazaoSocial(rs.getString("razao_social"));
+				pessoaJuridica.setNomeFantansia(rs.getString("nome_fantasia"));
+				pessoaJuridica.setAbertura(rs.getDate("abertura"));
+				pessoaJuridica.setCapitalSocial(rs.getDouble("capital_social"));
+				lista.add(pessoaJuridica);
+
+			}
+
+		} catch (SQLException e) {
+			throw new RuntimeException("Erro " + e.getMessage());
+		} finally {
+			MySQL.desconectar(conexao);
+		}
+		return lista;
 	}
 
 	@Override
@@ -147,14 +271,14 @@ public class PessoaController implements PessoaDAO {
 	@Override
 	public void deletePessoa(int id) {
 		Connection conexao = MySQL.conectar();
-		final String instrucao= "DELETE FROM pessoa where id = ?";
-		try (PreparedStatement ps = conexao.prepareStatement(instrucao)){
+		final String instrucao = "DELETE FROM pessoa where id = ?";
+		try (PreparedStatement ps = conexao.prepareStatement(instrucao)) {
 			ps.setInt(1, id);
 			ps.execute();
-			
-		}catch(SQLException e) {
+
+		} catch (SQLException e) {
 			throw new RuntimeException("ERRO AO EXECUTAR O DELETE" + e.getMessage());
-		}finally {
+		} finally {
 			MySQL.desconectar(conexao);
 		}
 
@@ -162,7 +286,25 @@ public class PessoaController implements PessoaDAO {
 
 	@Override
 	public void updatePessoa(Pessoa pessoa) {
-		// TODO Auto-generated method stub
+		Connection conexao = MySQL.conectar();
+
+		final String update = "UPDATE pessoa SET id_enderecamento_cep =?, numero_endereco = ?, comple_endereco = ?,"
+				+ "telefone = ?, cliente_desde = ?, situacao = ? WHERE id = ?";
+		try (PreparedStatement loco = conexao.prepareStatement(update)) {
+			loco.setInt(1, pessoa.getCep().getId());
+			loco.setInt(2, pessoa.getNumeroEndereco());
+			loco.setString(3, pessoa.getCompleEndereco());
+			loco.setString(4, pessoa.getTelefone());
+			loco.setDate(5, pessoa.getClienteDesde());
+			loco.setString(6, pessoa.getSituacao().getDescricao());
+
+			loco.execute();
+
+		} catch (SQLException e) {
+			throw new RuntimeException("erro ao executar o update " + e.getMessage());
+		} finally {
+			MySQL.desconectar(conexao);
+		}
 
 	}
 
@@ -194,7 +336,7 @@ public class PessoaController implements PessoaDAO {
 		Connection conexao = MySQL.conectar();
 		PessoaJuridica psPessoa = (PessoaJuridica) pessoa;
 		PessoaController pc = new PessoaController();
-		
+
 		final String insertPessoa = "INSERT INTO pessoa(id_enderecamento_cep, numero_endereco, comple_endereco, telefone, cliente_desde, situacao) VALUES (?, ?, ?, ?, ?, ?)";
 		final String insertPessoaJuridica = "INSERT INTO pessoa_juridica(id_pessoa, id_pessoa_fisica, cnpj, razao_social, nome_fantasia, abertura, capital_social) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
@@ -207,14 +349,14 @@ public class PessoaController implements PessoaDAO {
 			comandoPessoa.setString(4, pessoa.getTelefone());
 			comandoPessoa.setDate(5, pessoa.getClienteDesde());
 			comandoPessoa.setString(6, pessoa.getSituacao().getDescricao());
-
+			comandoPessoa.executeUpdate();
 
 			// Obter ID gerado
 			ResultSet rs = comandoPessoa.getGeneratedKeys();
 			if (rs.next()) {
 				int idPessoaGerado = rs.getInt(1);
 				try (PreparedStatement comandoPj = conexao.prepareStatement(insertPessoaJuridica)) {
-					
+
 					comandoPj.setInt(1, idPessoaGerado);
 					comandoPj.setInt(2, psPessoa.getDono().getId());
 					comandoPj.setString(3, psPessoa.getCnpj());
@@ -234,7 +376,5 @@ public class PessoaController implements PessoaDAO {
 		}
 
 	}
-
-	
 
 }

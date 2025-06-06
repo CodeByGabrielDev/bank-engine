@@ -6,7 +6,7 @@ import Enum.SituacaoContaBancaria;
 
 public abstract class ContaBancaria {
 	
-	private int id;
+	protected int id;
 	private Agencia codigoAgencia;
 	private Pessoa primeiroTitular;
 	private Pessoa segundoTitular;
@@ -23,23 +23,24 @@ public abstract class ContaBancaria {
 		
 	}
 
-	public ContaBancaria(int id,Agencia codigoAgencia, Pessoa primeiroTitular, Pessoa segundoTitular, Date dataAbertura,
-			double saldoAtual, String senha, String bandeiraCartao, int numeroCartao, Date expiraCartao, int cvv,
-			SituacaoContaBancaria situacaoConta) {
-		this.id = id;
-		this.codigoAgencia = codigoAgencia;
-		this.primeiroTitular = primeiroTitular;
-		this.segundoTitular = segundoTitular;
-		this.dataAbertura = dataAbertura;
-		this.saldoAtual = saldoAtual;
-		this.senha = senha;
-		this.bandeiraCartao = bandeiraCartao;
-		this.numeroCartao = numeroCartao;
-		this.expiraCartao = expiraCartao;
-		this.cvv = cvv;
-		this.situacaoConta = SituacaoContaBancaria.ATIVO;
-
+	public ContaBancaria(int id, Agencia codigoAgencia, Pessoa primeiroTitular, Pessoa segundoTitular, Date dataAbertura,
+	        double saldoAtual, String senha, String bandeiraCartao, int numeroCartao, Date expiraCartao, int cvv,
+	        SituacaoContaBancaria situacaoConta) {
+	    this.id = id;
+	    this.codigoAgencia = codigoAgencia;
+	    this.primeiroTitular = primeiroTitular;
+	    this.segundoTitular = segundoTitular;
+	    this.dataAbertura = dataAbertura;
+	    this.saldoAtual = saldoAtual;
+	    this.senha = senha;
+	    this.bandeiraCartao = bandeiraCartao;
+	    this.numeroCartao = numeroCartao;
+	    this.expiraCartao = expiraCartao;
+	    this.cvv = cvv;
+	    this.situacaoConta = situacaoConta;
 	}
+
+	
 
 	public Agencia getCodigoAgencia() {
 		return codigoAgencia;
@@ -62,7 +63,11 @@ public abstract class ContaBancaria {
 	}
 
 	public void setSegundoTitular(Pessoa segundoTitular) {
-		this.segundoTitular = segundoTitular;
+		if(segundoTitular == null) {
+			this.segundoTitular = null;
+		}else {
+			this.segundoTitular = segundoTitular;
+		}
 	}
 
 	public Date getDataAbertura() {
@@ -155,6 +160,14 @@ public abstract class ContaBancaria {
 	 * Só debita se saldo suficiente ou política da conta permitir.
 	 * 
 	 */
+
+	@Override
+	public String toString() {
+		return "ContaBancaria [id=" + id + ", codigoAgencia=" + codigoAgencia + ", primeiroTitular=" + primeiroTitular
+				+ ", segundoTitular=" + segundoTitular + ", dataAbertura=" + dataAbertura + ", saldoAtual=" + saldoAtual
+				+ ", senha=" + senha + ", bandeiraCartao=" + bandeiraCartao + ", numeroCartao=" + numeroCartao
+				+ ", expiraCartao=" + expiraCartao + ", cvv=" + cvv + ", situacaoConta=" + situacaoConta + "]";
+	}
 	
 
 }

@@ -27,6 +27,17 @@ public class ContaSalario extends ContaBancaria {
 		this.portabilidade = portabilidade;
 		this.salario = TipoDeConta.SALARIO;
 	}
+		
+
+	public ContaSalario( Agencia codigoAgencia, Pessoa primeiroTitular, Pessoa segundoTitular, Date dataAbertura,
+			double saldoAtual, String senha, String bandeiraCartao, int numeroCartao, Date expiraCartao, int cvv,
+			SituacaoContaBancaria situacaoConta, PessoaJuridica cnpj, double limite, ContaBancaria portabilidade) {
+		super(0, codigoAgencia, primeiroTitular, segundoTitular, dataAbertura, saldoAtual, senha, bandeiraCartao,
+				numeroCartao, expiraCartao, cvv, situacaoConta);
+		this.cnpj = cnpj;
+		this.limite = limite;
+		this.portabilidade = portabilidade;
+	}
 
 	public PessoaJuridica getCnpj() {
 		return cnpj;
