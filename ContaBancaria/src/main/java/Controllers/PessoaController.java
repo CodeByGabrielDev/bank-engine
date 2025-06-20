@@ -38,7 +38,7 @@ public class PessoaController implements PessoaDAO {
 				pessoa.setSituacao(SituacaoCliente.fromDescricao(rs.getString("situacao")));
 				pessoa.setCep(ec.findEnderecamento(rs.getInt("id_enderecamento_cep")));
 				pessoa.setNumeroEndereco(rs.getInt("numero_endereco"));
-				pessoa.setCompleEndereco(rs.getString("Comple_endereco"));
+				pessoa.setCompleEndereco(rs.getString("comple_endereco"));
 				pessoa.setTelefone(rs.getString("telefone"));
 				pessoa.setClienteDesde(rs.getDate("cliente_desde"));
 
@@ -48,7 +48,6 @@ public class PessoaController implements PessoaDAO {
 				pessoa.setDataDeNascimento(rs.getDate("data_nascimento"));
 				pessoa.setSexo(Sexo.fromDescricao(rs.getString("sexo")));
 				pessoa.setRendaMensal(rs.getDouble("renda_mensal"));
-				
 
 			}
 		} catch (SQLException e) {
@@ -76,14 +75,14 @@ public class PessoaController implements PessoaDAO {
 				pessoa.setSituacao(SituacaoCliente.fromDescricao(rs.getString("situacao")));
 				pessoa.setCep(ec.findEnderecamento(rs.getInt("id_enderecamento_cep")));
 				pessoa.setNumeroEndereco(rs.getInt("numero_endereco"));
-				pessoa.setCompleEndereco(rs.getString("Comple_endereco"));
+				pessoa.setCompleEndereco(rs.getString("comple_endereco"));
 				pessoa.setTelefone(rs.getString("telefone"));
 				pessoa.setClienteDesde(rs.getDate("cliente_desde"));
 
 				pessoa.setDono(pc.findPessoaFisica(rs.getInt("id_pessoa_fisica")));
 				pessoa.setCnpj(rs.getString("cnpj"));
 				pessoa.setRazaoSocial(rs.getString("razao_social"));
-				pessoa.setNomeFantansia(rs.getString("nome_fantasia"));
+				pessoa.setNomeFantasia(rs.getString("nome_fantasia"));
 				pessoa.setAbertura(rs.getDate("abertura"));
 				pessoa.setCapitalSocial(rs.getDouble("capital_social"));
 
@@ -167,18 +166,15 @@ public class PessoaController implements PessoaDAO {
 
 		try (PreparedStatement ps = conexao.prepareStatement(select)) {
 			ResultSet rs = ps.executeQuery();
-			pessoaJuridica = new PessoaJuridica();
+
 			PessoaController pc = new PessoaController();
 			while (rs.next()) {
-				/*
-				 * id_pessoa int(11) PK id_pessoa_fisica int(11) cnpj varchar(45) razao_social
-				 * varchar(45) nome_fantasia varchar(45) abertura date capital_social
-				 * decimal(10,2)
-				 */
+
+				pessoaJuridica = new PessoaJuridica();
 				pessoaJuridica.setDono(pc.findPessoaFisica(rs.getInt("id_pessoa_fisica")));
 				pessoaJuridica.setCnpj(rs.getString("cnpj"));
 				pessoaJuridica.setRazaoSocial(rs.getString("razao_social"));
-				pessoaJuridica.setNomeFantansia(rs.getString("nome_fantasia"));
+				pessoaJuridica.setNomeFantasia(rs.getString("nome_fantasia"));
 				pessoaJuridica.setAbertura(rs.getDate("abertura"));
 				pessoaJuridica.setCapitalSocial(rs.getDouble("capital_social"));
 				lista.add(pessoaJuridica);
@@ -265,9 +261,27 @@ public class PessoaController implements PessoaDAO {
 
 	@Override
 	public void save(Pessoa pessoa) {
-		// TODO Auto-generated method stub
-
+	    if (pessoa.getId() == 0) { 
+	        if (pessoa instanceof PessoaFisica) {
+	            insertPessoaFisica(pessoa);
+	        } else if (pessoa instanceof PessoaJuridica) {
+	            insertPessoaJuridica(pessoa);
+	        } else {
+	            throw new IllegalArgumentException("Tipo de Pessoa desconhecido para inserção");
+	        }
+	    } else {
+	        if (pessoa instanceof PessoaFisica) {
+	            updatePessoa(pessoa);
+	            updatePessoaFisica(pessoa);
+	        } else if (pessoa instanceof PessoaJuridica) {
+	            updatePessoa(pessoa);
+	            updatePessoaJuridica(pessoa);
+	        } else {
+	            throw new IllegalArgumentException("Tipo de Pessoa desconhecido para atualização");
+	        }
+	    }
 	}
+
 
 	@Override
 	public void deletePessoa(int id) {
@@ -298,6 +312,7 @@ public class PessoaController implements PessoaDAO {
 			loco.setString(4, pessoa.getTelefone());
 			loco.setDate(5, pessoa.getClienteDesde());
 			loco.setString(6, pessoa.getSituacao().getDescricao());
+			loco.setInt(7, pessoa.getId());
 
 			loco.execute();
 
@@ -318,7 +333,7 @@ public class PessoaController implements PessoaDAO {
 
 			ps.setString(1, psF.getCnpj());
 			ps.setString(2, psF.getRazaoSocial());
-			ps.setString(3, psF.getNomeFantansia());
+			ps.setString(3, psF.getNomeFantasia());
 			ps.setDate(4, psF.getAbertura());
 			ps.setDouble(5, psF.getCapitalSocial());
 			ps.setInt(6, psF.getId());
@@ -334,48 +349,48 @@ public class PessoaController implements PessoaDAO {
 
 	@Override
 	public void insertPessoaJuridica(Pessoa pessoa) {
-		Connection conexao = MySQL.conectar();
-		PessoaJuridica psPessoa = (PessoaJuridica) pessoa;
-		PessoaController pc = new PessoaController();
+	    Connection conexao = MySQL.conectar();
+	    PessoaJuridica psPessoa = (PessoaJuridica) pessoa;
 
-		final String insertPessoa = "INSERT INTO pessoa(id_enderecamento_cep, numero_endereco, comple_endereco, telefone, cliente_desde, situacao) VALUES (?, ?, ?, ?, ?, ?)";
-		final String insertPessoaJuridica = "INSERT INTO pessoa_juridica(id_pessoa, id_pessoa_fisica, cnpj, razao_social, nome_fantasia, abertura, capital_social) VALUES (?, ?, ?, ?, ?, ?, ?)";
+	    final String insertPessoa = "INSERT INTO pessoa(id_enderecamento_cep, numero_endereco, comple_endereco, telefone, cliente_desde, situacao) VALUES (?, ?, ?, ?, ?, ?)";
+	    final String insertPessoaJuridica = "INSERT INTO pessoa_juridica(id_pessoa, id_pessoa_fisica, cnpj, razao_social, nome_fantasia, abertura, capital_social) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
-		try (PreparedStatement comandoPessoa = conexao.prepareStatement(insertPessoa,
-				PreparedStatement.RETURN_GENERATED_KEYS)) {
+	    try (PreparedStatement comandoPessoa = conexao.prepareStatement(insertPessoa,
+	            PreparedStatement.RETURN_GENERATED_KEYS)) {
 
-			comandoPessoa.setInt(1, pessoa.getCep().getId());
-			comandoPessoa.setInt(2, pessoa.getNumeroEndereco());
-			comandoPessoa.setString(3, pessoa.getCompleEndereco()); // Correção aqui
-			comandoPessoa.setString(4, pessoa.getTelefone());
-			comandoPessoa.setDate(5, pessoa.getClienteDesde());
-			comandoPessoa.setString(6, pessoa.getSituacao().getDescricao());
-			comandoPessoa.executeUpdate();
+	        comandoPessoa.setInt(1, pessoa.getCep().getId());
+	        comandoPessoa.setInt(2, pessoa.getNumeroEndereco());
+	        comandoPessoa.setString(3, pessoa.getCompleEndereco());
+	        comandoPessoa.setString(4, pessoa.getTelefone());
+	        comandoPessoa.setDate(5, pessoa.getClienteDesde());
+	        comandoPessoa.setString(6, pessoa.getSituacao().getDescricao());
+	        comandoPessoa.executeUpdate();
 
-			// Obter ID gerado
-			ResultSet rs = comandoPessoa.getGeneratedKeys();
-			if (rs.next()) {
-				int idPessoaGerado = rs.getInt(1);
-				try (PreparedStatement comandoPj = conexao.prepareStatement(insertPessoaJuridica)) {
+	        // Obter ID gerado
+	        ResultSet rs = comandoPessoa.getGeneratedKeys();
+	        if (rs.next()) {
+	            int idPessoaGerado = rs.getInt(1);
+	            try (PreparedStatement comandoPj = conexao.prepareStatement(insertPessoaJuridica)) {
 
-					comandoPj.setInt(1, idPessoaGerado);
-					comandoPj.setInt(2, psPessoa.getDono().getId());
-					comandoPj.setString(3, psPessoa.getCnpj());
-					comandoPj.setString(4, psPessoa.getRazaoSocial());
-					comandoPj.setString(5, psPessoa.getNomeFantansia());
-					comandoPj.setDate(6, psPessoa.getAbertura());
-					comandoPj.setDouble(7, psPessoa.getCapitalSocial());
-					comandoPj.execute();
-				}
-			} else {
-				throw new SQLException("Erro ao obter ID gerado para Pessoa.");
-			}
-		} catch (SQLException e) {
-			throw new RuntimeException("Erro ao inserir PessoaFisica: " + e.getMessage(), e);
-		} finally {
-			MySQL.desconectar(conexao);
-		}
+	                comandoPj.setInt(1, idPessoaGerado);
+	                comandoPj.setInt(2, psPessoa.getDono().getId());
+	                comandoPj.setString(3, psPessoa.getCnpj());
+	                comandoPj.setString(4, psPessoa.getRazaoSocial());
+	                comandoPj.setString(5, psPessoa.getNomeFantasia());
+	                comandoPj.setDate(6, psPessoa.getAbertura());
+	                comandoPj.setDouble(7, psPessoa.getCapitalSocial());
 
+	                comandoPj.executeUpdate();
+	            }
+	        } else {
+	            throw new SQLException("Erro ao obter ID gerado para Pessoa.");
+	        }
+	    } catch (SQLException e) {
+	        throw new RuntimeException("Erro ao inserir PessoaJuridica: " + e.getMessage(), e);
+	    } finally {
+	        MySQL.desconectar(conexao);
+	    }
 	}
+
 
 }

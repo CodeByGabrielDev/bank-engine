@@ -54,7 +54,7 @@ public class ContaEspecial extends ContaBancaria {
 
 	@Override
 	public String toString() {
-		return "ContaEspecial [limite=" + limite + ", vencimento=" + vencimento + ", especial=" + especial + ", " +super.toString();
+		return "ContaEspecial [limite=" + limite + "\n, vencimento=" + vencimento + "\n, especial=" + especial + ", " +super.toString();
 	}
 	
 

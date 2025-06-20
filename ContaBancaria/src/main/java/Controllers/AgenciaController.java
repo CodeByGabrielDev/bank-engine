@@ -60,7 +60,7 @@ public class AgenciaController implements AgenciaDAO {
 		List<Agencia> lista = new ArrayList<>();
 		try (PreparedStatement ps = conexao.prepareStatement(instrucao)) {
 			ResultSet rs = ps.executeQuery();
-			while(rs.next()) {
+			while (rs.next()) {
 				Agencia agencia = new Agencia();
 				BancoController bc = new BancoController();
 				EnderecamentoController ec = new EnderecamentoController();
@@ -72,7 +72,6 @@ public class AgenciaController implements AgenciaDAO {
 				agencia.setSituacao(SituacaoEmpresa.fromDescricao(rs.getString("situacao_empresa")));
 				agencia.setId(rs.getInt("id"));
 				lista.add(agencia);
-				
 
 			}
 		} catch (SQLException e) {
@@ -117,14 +116,14 @@ public class AgenciaController implements AgenciaDAO {
 
 		try {
 			comando = conexao.prepareStatement(instrucao);
-			comando.setInt(1, agencia.getCodigoFebraban().getId()); // retorna o ID do OBJETO BANCO,
+			comando.setLong(1, agencia.getCodigoFebraban().getId()); // retorna o ID do OBJETO BANCO,
 			comando.setInt(2, agencia.getCep().getId());// retorna o ID do objeto ENDERECAMENTO, MUITO UTIL PARA
 														// REFERENCIAR OBJETOS
 			comando.setInt(3, agencia.getNumeroEndereco());
 			comando.setString(4, agencia.getComplementoEndereco());
 			comando.setString(5, agencia.getTelefone());
 			comando.setString(6, agencia.getSituacao().toString());
-			comando.setInt(7, agencia.getId());
+			comando.setLong(7, agencia.getId());
 
 			comando.execute();
 
@@ -137,16 +136,15 @@ public class AgenciaController implements AgenciaDAO {
 
 	@Override
 	public void save(Agencia agencia) {
-	    if (agencia.getId() == 0) {
-	        insert(agencia);
-	    } else {
-	        update(agencia);
-	    }
+		if (agencia.getId() == 0) {
+			insert(agencia);
+		} else {
+			update(agencia);
+		}
 	}
 
-
 	@Override
-	public void delete(Agencia agencia) {
+	public void delete(int id) {
 		Connection conexao = MySQL.conectar();
 		final String instrucao = "DELETE FROM agencia WHERE id = ?";
 
@@ -154,7 +152,7 @@ public class AgenciaController implements AgenciaDAO {
 
 		try {
 			comando = conexao.prepareStatement(instrucao);
-			comando.setInt(1, agencia.getId());
+			comando.setInt(1, id);
 			comando.execute();
 		} catch (SQLException e) {
 			throw new RuntimeException("ERRO AO EXECUTAR O DELETE, VERIFIQUE OS COMANDOS " + e.getMessage());

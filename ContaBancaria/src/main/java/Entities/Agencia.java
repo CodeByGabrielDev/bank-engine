@@ -4,130 +4,103 @@ import Enum.SituacaoEmpresa;
 
 public class Agencia {
 
-	/*
-	 * a) Possui obrigatoriamente os seguintes atributos: i. Identificador único.
-	 * ii. Código FEBRABAN da instituição a qual está vinculada. • Deverá
-	 * referenciar a um Banco existente. iii. Número do CEP. • Deverá referenciar a
-	 * um Enderecamento existente. iv. Número do endereço. v. Complemento de
-	 * endereço. vi. Número do telefone. vii. Situação. • Ativo. • Inativo. ID_BANCO
-	 * FK ID_ENDERECAMENTO
-	 */
+    private long id;
+    private Banco codigoFebraban;
+    private Enderecamento cep;
+    private int numeroEndereco;
+    private String complementoEndereco;
+    private String telefone;
+    private SituacaoEmpresa situacao;
 
-	private int id;
-	private Banco codigoFebraban;
-	private Enderecamento cep; // REFERENCIAR UM ENDERECAMENTO COM BASE NO CEP(CRIAR METODOS PARA REFERENCIAR)
-	private int numeroEndereco;
-	private String complementoEndereco;
-	private String telefone;
-	private SituacaoEmpresa situacao;
+    // Construtor vazio
+    public Agencia() {
+        this.situacao = SituacaoEmpresa.ativo; // padrão ativo
+    }
 
-	public Agencia() {
+    // Getters e Setters
+    public long getId() {
+        return id;
+    }
 
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public Agencia(int id, Banco codigoFebraban, Enderecamento cep, int numeroEndereco, String complementoEndereco,
-			String telefone) {
-		this.codigoFebraban = codigoFebraban;
-		this.cep = cep;
-		this.numeroEndereco = numeroEndereco;
-		this.complementoEndereco = complementoEndereco;
-		this.telefone = telefone;
-		this.situacao = SituacaoEmpresa.ativo;
+    public Banco getCodigoFebraban() {
+        return codigoFebraban;
+    }
 
-	}
-	
+    public void setCodigoFebraban(Banco codigoFebraban) {
+        this.codigoFebraban = codigoFebraban;
+    }
 
-	public Agencia(Banco codigoFebraban, Enderecamento cep, int numeroEndereco, String complementoEndereco,
-			String telefone, SituacaoEmpresa situacao,int id) {
-		this.id = id;
-		this.codigoFebraban = codigoFebraban;
-		this.cep = cep;
-		this.numeroEndereco = numeroEndereco;
-		this.complementoEndereco = complementoEndereco;
-		this.telefone = telefone;
-		this.situacao = situacao;
-	}
+    public Enderecamento getCep() {
+        return cep;
+    }
 
-	public int getId() {
-		return id;
-	}
+    public void setCep(Enderecamento cep) {
+        this.cep = cep;
+    }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    public int getNumeroEndereco() {
+        return numeroEndereco;
+    }
 
-	public Banco getCodigoFebraban() {
-		return codigoFebraban;
-	}
+    public void setNumeroEndereco(int numeroEndereco) {
+        this.numeroEndereco = numeroEndereco;
+    }
 
-	public void setCodigoFebraban(Banco codigoFebraban) {
-		this.codigoFebraban = codigoFebraban;
-	}
+    public String getComplementoEndereco() {
+        return complementoEndereco;
+    }
 
-	public Enderecamento getCep() {
-		return cep;
-	}
+    public void setComplementoEndereco(String complementoEndereco) {
+        this.complementoEndereco = complementoEndereco;
+    }
 
-	public void setCep(Enderecamento cep) {
-		this.cep = cep;
-	}
+    public String getTelefone() {
+        return telefone;
+    }
 
-	public int getNumeroEndereco() {
-		return numeroEndereco;
-	}
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
+    }
 
-	public void setNumeroEndereco(int numeroEndereco) {
-		this.numeroEndereco = numeroEndereco;
-	}
+    public SituacaoEmpresa getSituacao() {
+        return situacao;
+    }
 
-	public String getComplementoEndereco() {
-		return complementoEndereco;
-	}
+    public void setSituacao(SituacaoEmpresa situacao) {
+        this.situacao = situacao;
+    }
 
-	public void setComplementoEndereco(String complementoEndereco) {
-		this.complementoEndereco = complementoEndereco;
-	}
+    // Métodos auxiliares
+    public void desativar() {
+        if (this.situacao == SituacaoEmpresa.ativo) {
+            this.situacao = SituacaoEmpresa.inativo;
+        }
+    }
 
-	public String getTelefone() {
-		return telefone;
-	}
+    public void ativar() {
+        if (this.situacao == SituacaoEmpresa.inativo) {
+            this.situacao = SituacaoEmpresa.ativo;
+        }
+    }
 
-	public void setTelefone(String telefone) {
-		this.telefone = telefone;
-	}
+    public void alterarTelefone(String telefoneNovo) {
+        if (this.situacao == SituacaoEmpresa.ativo) {
+            this.telefone = telefoneNovo;
+        }
+    }
 
-	public SituacaoEmpresa getSituacao() {
-		return situacao;
-	}
-
-	public void setSituacao(SituacaoEmpresa situacao) {
-		this.situacao = situacao;
-	}
-
-	public void desativar() {
-		if (this.situacao == SituacaoEmpresa.ativo) {
-			this.situacao = SituacaoEmpresa.inativo;
-		}
-
-	}
-
-	public void alterarTelefone(String telefoneNovo) {
-		if (this.situacao == SituacaoEmpresa.ativo) {
-			this.telefone = telefoneNovo;
-		}
-	}
-
-	public void ativar() {
-		if (this.situacao == SituacaoEmpresa.inativo) {
-			this.situacao = SituacaoEmpresa.ativo;
-		}
-	}
-
-	@Override
-	public String toString() {
-		return "Agencia [id=" + id + ", codigoFebraban=" + codigoFebraban + ", numeroEndereco="
-				+ numeroEndereco + ", complementoEndereco=" + complementoEndereco + ", telefone=" + telefone
-				+ ", situacao=" + situacao + "]";
-	}
-
+    @Override
+    public String toString() {
+        return "Agencia [id=" + id + 
+               ", codigoFebraban=" + codigoFebraban + 
+               ", cep=" + cep + 
+               ", numeroEndereco=" + numeroEndereco + 
+               ", complementoEndereco=" + complementoEndereco + 
+               ", telefone=" + telefone + 
+               ", situacao=" + situacao + "]";
+    }
 }

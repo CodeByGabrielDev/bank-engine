@@ -187,7 +187,7 @@ public class ContaBancariaController implements ContaBancariaDAO {
 				cb.setSaldoAtual(rs.getDouble("saldo_atual"));
 				cb.setSenha(rs.getString("senha"));
 				cb.setBandeiraCartao(rs.getString("bandeira_cartao"));
-				cb.setNumeroCartao(rs.getInt("numero_cartao"));
+				cb.setNumeroCartao(rs.getLong("numero_cartao"));
 				cb.setExpiraCartao(rs.getDate("expira_cartao"));
 				cb.setSituacaoConta(SituacaoContaBancaria.fromDescricao(rs.getString("situacao_conta")));
 				list.add(cb);
@@ -264,7 +264,7 @@ public class ContaBancariaController implements ContaBancariaDAO {
 
 				cb = new ContaSalario();
 
-				cb.setCnpj(pc.findPessoaJuridica(rs.getInt("id_pessoa_juridica")));
+				cb.setCnpj(pc.findPessoaJuridica(rs.getInt("id_conta_juridica")));
 				cb.setPortabilidade(cbc.findContaCorrente(rs.getInt("id_conta_corrente")));
 				cb.setLimite(rs.getDouble("limite"));
 				list.add(cb);
@@ -315,7 +315,7 @@ public class ContaBancariaController implements ContaBancariaDAO {
 		try (PreparedStatement comandoContaBancaria = conexao.prepareStatement(insertContaBancaria,
 				PreparedStatement.RETURN_GENERATED_KEYS)) {
 
-			comandoContaBancaria.setInt(1, contaCorrente.getCodigoAgencia().getId());
+			comandoContaBancaria.setLong(1, contaCorrente.getCodigoAgencia().getId());
 			comandoContaBancaria.setInt(2, contaCorrente.getPrimeiroTitular().getId());
 			if (contaCorrente.getSegundoTitular() == null) {
 				comandoContaBancaria.setNull(3, java.sql.Types.INTEGER);
@@ -327,7 +327,7 @@ public class ContaBancariaController implements ContaBancariaDAO {
 			comandoContaBancaria.setDouble(5, contaCorrente.getSaldoAtual());
 			comandoContaBancaria.setString(6, contaCorrente.getSenha());
 			comandoContaBancaria.setString(7, contaCorrente.getBandeiraCartao());
-			comandoContaBancaria.setInt(8, contaCorrente.getNumeroCartao());
+			comandoContaBancaria.setLong(8, contaCorrente.getNumeroCartao());
 			comandoContaBancaria.setDate(9, contaCorrente.getExpiraCartao());
 			comandoContaBancaria.setInt(10, contaCorrente.getCvv());
 			comandoContaBancaria.setString(11, contaCorrente.getSituacaoConta().toString());
@@ -365,7 +365,7 @@ public class ContaBancariaController implements ContaBancariaDAO {
 		try (PreparedStatement comandoContaBancaria = conexao.prepareStatement(insertContaBancaria,
 				PreparedStatement.RETURN_GENERATED_KEYS)) {
 
-			comandoContaBancaria.setInt(1, contaPoupanca.getCodigoAgencia().getId());
+			comandoContaBancaria.setLong(1, contaPoupanca.getCodigoAgencia().getId());
 			comandoContaBancaria.setInt(2, contaPoupanca.getPrimeiroTitular().getId());
 			if (contaPoupanca.getSegundoTitular() == null) {
 				comandoContaBancaria.setNull(3, java.sql.Types.INTEGER);
@@ -377,7 +377,7 @@ public class ContaBancariaController implements ContaBancariaDAO {
 			comandoContaBancaria.setDouble(5, contaPoupanca.getSaldoAtual());
 			comandoContaBancaria.setString(6, contaPoupanca.getSenha());
 			comandoContaBancaria.setString(7, contaPoupanca.getBandeiraCartao());
-			comandoContaBancaria.setInt(8, contaPoupanca.getNumeroCartao());
+			comandoContaBancaria.setLong(8, contaPoupanca.getNumeroCartao());
 			comandoContaBancaria.setDate(9, contaPoupanca.getExpiraCartao());
 			comandoContaBancaria.setInt(10, contaPoupanca.getCvv());
 			comandoContaBancaria.setString(11, contaPoupanca.getSituacaoConta().toString());
@@ -415,7 +415,7 @@ public class ContaBancariaController implements ContaBancariaDAO {
 		try (PreparedStatement comandoContaBancaria = conexao.prepareStatement(insertContaBancaria,
 				PreparedStatement.RETURN_GENERATED_KEYS)) {
 
-			comandoContaBancaria.setInt(1, contaSalario.getCodigoAgencia().getId());
+			comandoContaBancaria.setLong(1, contaSalario.getCodigoAgencia().getId());
 
 			comandoContaBancaria.setInt(2, contaSalario.getPrimeiroTitular().getId());
 
@@ -429,7 +429,7 @@ public class ContaBancariaController implements ContaBancariaDAO {
 			comandoContaBancaria.setDouble(5, contaSalario.getSaldoAtual());
 			comandoContaBancaria.setString(6, contaSalario.getSenha());
 			comandoContaBancaria.setString(7, contaSalario.getBandeiraCartao());
-			comandoContaBancaria.setInt(8, contaSalario.getNumeroCartao());
+			comandoContaBancaria.setLong(8, contaSalario.getNumeroCartao());
 			comandoContaBancaria.setDate(9, contaSalario.getExpiraCartao());
 			comandoContaBancaria.setInt(10, contaSalario.getCvv());
 			comandoContaBancaria.setString(11, contaSalario.getSituacaoConta().toString());
@@ -468,12 +468,13 @@ public class ContaBancariaController implements ContaBancariaDAO {
 		ContaEspecial cc = (ContaEspecial) contaEspecial;
 
 		final String insertContaBancaria = "INSERT INTO conta_bancaria(id_agencia, id_primeiro_titular, id_segundo_titular, data_abertura, saldo_atual, senha, bandeira_cartao, numero_cartao, expira_cartao, cvv, situacao_conta) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-		final String insertContaEspecial = "INSERT INTO conta_especial()VALUES()";
+		final String insertContaEspecial = "INSERT INTO conta_especial(id_conta_Bancaria, limite, vencimento) VALUES (?, ?, ?)";
+		;
 
 		try (PreparedStatement comandoContaBancaria = conexao.prepareStatement(insertContaBancaria,
 				PreparedStatement.RETURN_GENERATED_KEYS)) {
 
-			comandoContaBancaria.setInt(1, contaEspecial.getCodigoAgencia().getId());
+			comandoContaBancaria.setLong(1, contaEspecial.getCodigoAgencia().getId());
 
 			comandoContaBancaria.setInt(2, contaEspecial.getPrimeiroTitular().getId());
 
@@ -487,7 +488,7 @@ public class ContaBancariaController implements ContaBancariaDAO {
 			comandoContaBancaria.setDouble(5, contaEspecial.getSaldoAtual());
 			comandoContaBancaria.setString(6, contaEspecial.getSenha());
 			comandoContaBancaria.setString(7, contaEspecial.getBandeiraCartao());
-			comandoContaBancaria.setInt(8, contaEspecial.getNumeroCartao());
+			comandoContaBancaria.setLong(8, contaEspecial.getNumeroCartao());
 			comandoContaBancaria.setDate(9, contaEspecial.getExpiraCartao());
 			comandoContaBancaria.setInt(10, contaEspecial.getCvv());
 			comandoContaBancaria.setString(11, contaEspecial.getSituacaoConta().toString());
@@ -530,14 +531,14 @@ public class ContaBancariaController implements ContaBancariaDAO {
 				+ "data_abertura = ?, saldo_atual = ?, senha = ?, bandeira_cartao = ?, numero_cartao = ?, expira_cartao = ?,"
 				+ "cvv = ?, situacao_conta = ? where id = ?";
 		try (PreparedStatement ps = conexao.prepareStatement(update)) {
-			ps.setInt(1, pessoa.getCodigoAgencia().getId());
+			ps.setLong(1, pessoa.getCodigoAgencia().getId());
 			ps.setInt(2, pessoa.getPrimeiroTitular().getId());
 			ps.setInt(3, pessoa.getSegundoTitular().getId());
 			ps.setDate(4, pessoa.getDataAbertura());
 			ps.setDouble(5, pessoa.getSaldoAtual());
 			ps.setString(6, pessoa.getSenha());
 			ps.setString(7, pessoa.getBandeiraCartao());
-			ps.setInt(8, pessoa.getNumeroCartao());
+			ps.setLong(8, pessoa.getNumeroCartao());
 			ps.setDate(9, pessoa.getExpiraCartao());
 			ps.setInt(10, pessoa.getCvv());
 			ps.setString(11, pessoa.getSituacaoConta().getDescricao());
@@ -571,10 +572,12 @@ public class ContaBancariaController implements ContaBancariaDAO {
 	@Override
 	public void updateContaEspecial(ContaEspecial contaEspecial) {
 		Connection conexao = MySQL.conectar();
-		final String update = "UPDATE conta_especial set limite = ?,vecimento = ? where id_conta_Bancaria = ?";
+		final String update = "UPDATE conta_especial set limite = ?,vencimento = ? where id_conta_Bancaria = ?";
 		try (PreparedStatement ps = conexao.prepareStatement(update)) {
 			ps.setDouble(1, contaEspecial.getLimite());
 			ps.setDate(2, contaEspecial.getVencimento());
+			ps.setInt(3, contaEspecial.getId()); // ID da conta a ser atualizada
+
 			ps.executeUpdate();
 		} catch (SQLException e) {
 			throw new RuntimeException("Erro ao executar o update " + e.getMessage());
@@ -586,8 +589,31 @@ public class ContaBancariaController implements ContaBancariaDAO {
 
 	@Override
 	public void save(ContaBancaria contaBancaria) {
-		// TODO Auto-generated method stub
+		if (contaBancaria.getId() == 0) {
+			// Novo registro
+			if (contaBancaria instanceof ContaCorrente) {
+				insertContaCorrente(contaBancaria);
+			} else if (contaBancaria instanceof ContaPoupanca) {
+				insertContaPoupanca(contaBancaria);
+			} else if (contaBancaria instanceof ContaEspecial) {
+				insertContaEspecial(contaBancaria);
+			} else if (contaBancaria instanceof ContaSalario) {
+				insertContaSalario(contaBancaria);
+			} else {
+				throw new IllegalArgumentException("Tipo de conta desconhecido.");
+			}
+		} else {
+			// Registro já existe, atualizar dados genéricos
+			updateContaBancaria(contaBancaria);
 
+			// Atualizar dados específicos
+			if (contaBancaria instanceof ContaEspecial) {
+				updateContaEspecial((ContaEspecial) contaBancaria);
+			} else if (contaBancaria instanceof ContaSalario) {
+				updateContaSalario((ContaSalario) contaBancaria);
+			}
+			// Contas Corrente e Poupança só têm dados em conta_bancaria
+		}
 	}
 
 	@Override

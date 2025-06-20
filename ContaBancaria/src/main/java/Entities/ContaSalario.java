@@ -75,7 +75,7 @@ public class ContaSalario extends ContaBancaria {
 
 	@Override
 	public String toString() {
-		return "ContaSalario [cnpj=" + cnpj + ", limite=" + limite + ", portabilidade=" + portabilidade + ", salario="
+		return "ContaSalario [cnpj=" + cnpj + "\n, limite=" + limite + "\n, portabilidade=" + portabilidade + "\n, salario="
 				+ salario + ", " +super.toString();
 	}
 	

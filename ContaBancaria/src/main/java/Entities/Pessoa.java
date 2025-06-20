@@ -39,16 +39,13 @@ public abstract class Pessoa {
         this.id = id;
     }
 
+    // Setters simples para uso interno, sem validação
     public Enderecamento getCep() {
         return cep;
     }
 
     public void setCep(Enderecamento cep) {
-        if (this.situacao == SituacaoCliente.ATIVO) {
-            this.cep = cep;
-            return;
-        }
-        throw new IllegalArgumentException("Usuario nao ativo.");
+        this.cep = cep;
     }
 
     public int getNumeroEndereco() {
@@ -56,11 +53,7 @@ public abstract class Pessoa {
     }
 
     public void setNumeroEndereco(int numeroEndereco) {
-        if (this.situacao == SituacaoCliente.ATIVO) {
-            this.numeroEndereco = numeroEndereco;
-            return;
-        }
-        throw new IllegalArgumentException("Usuario nao ativo.");
+        this.numeroEndereco = numeroEndereco;
     }
 
     public String getCompleEndereco() {
@@ -68,11 +61,7 @@ public abstract class Pessoa {
     }
 
     public void setCompleEndereco(String compleEndereco) {
-        if (this.situacao == SituacaoCliente.ATIVO) {
-            this.compleEndereco = compleEndereco;
-            return;
-        }
-        throw new IllegalArgumentException("Usuario nao ativo.");
+        this.compleEndereco = compleEndereco;
     }
 
     public String getTelefone() {
@@ -80,11 +69,7 @@ public abstract class Pessoa {
     }
 
     public void setTelefone(String telefone) {
-        if (this.situacao == SituacaoCliente.ATIVO) {
-            this.telefone = telefone;
-            return;
-        }
-        throw new IllegalArgumentException("Usuario nao ativo.");
+        this.telefone = telefone;
     }
 
     public Date getClienteDesde() {
@@ -92,11 +77,7 @@ public abstract class Pessoa {
     }
 
     public void setClienteDesde(Date clienteDesde) {
-        if (this.situacao == SituacaoCliente.ATIVO) {
-            this.clienteDesde = clienteDesde;
-            return;
-        }
-        throw new IllegalArgumentException("Usuario nao ativo.");
+        this.clienteDesde = clienteDesde;
     }
 
     public SituacaoCliente getSituacao() {
@@ -107,11 +88,44 @@ public abstract class Pessoa {
         this.situacao = situacao;
     }
 
-    public void alterarEndereco(Enderecamento novoCep) {
+    // Métodos para alteração que validam se o usuário está ativo
+    public void alterarCep(Enderecamento novoCep) {
         if (this.situacao == SituacaoCliente.ATIVO) {
             this.cep = novoCep;
         } else {
-            throw new IllegalArgumentException("Usuario nao ativo.");
+            throw new IllegalArgumentException("Usuário não ativo.");
+        }
+    }
+
+    public void alterarNumeroEndereco(int novoNumero) {
+        if (this.situacao == SituacaoCliente.ATIVO) {
+            this.numeroEndereco = novoNumero;
+        } else {
+            throw new IllegalArgumentException("Usuário não ativo.");
+        }
+    }
+
+    public void alterarCompleEndereco(String novoComple) {
+        if (this.situacao == SituacaoCliente.ATIVO) {
+            this.compleEndereco = novoComple;
+        } else {
+            throw new IllegalArgumentException("Usuário não ativo.");
+        }
+    }
+
+    public void alterarTelefone(String novoTelefone) {
+        if (this.situacao == SituacaoCliente.ATIVO) {
+            this.telefone = novoTelefone;
+        } else {
+            throw new IllegalArgumentException("Usuário não ativo.");
+        }
+    }
+
+    public void alterarClienteDesde(Date novaData) {
+        if (this.situacao == SituacaoCliente.ATIVO) {
+            this.clienteDesde = novaData;
+        } else {
+            throw new IllegalArgumentException("Usuário não ativo.");
         }
     }
 
@@ -124,11 +138,11 @@ public abstract class Pessoa {
         return ++ultimoId;
     }
 
-	@Override
-	public String toString() {
-		return "Pessoa [id=" + id + ", cep=" + cep + ", numeroEndereco=" + numeroEndereco + ", compleEndereco="
-				+ compleEndereco + ", telefone=" + telefone + ", clienteDesde=" + clienteDesde + ", situacao="
-				+ situacao + "]";
-	}
-    
+    @Override
+    public String toString() {
+        return "Pessoa [id=" + id + "\n, cep=" + cep + "\n, numeroEndereco=" + numeroEndereco + "\n, compleEndereco="
+                + compleEndereco + "\n, telefone=" + telefone + "\n, clienteDesde=" + clienteDesde + "\n, situacao="
+                + situacao + "]";
+    }
+
 }

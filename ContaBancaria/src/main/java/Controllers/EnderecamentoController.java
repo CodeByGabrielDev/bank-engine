@@ -8,8 +8,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.mysql.cj.x.protobuf.MysqlxPrepare.Prepare;
-
 import Connection.MySQL;
 import Interfaces.EnderacamentoDAO;
 
@@ -92,7 +90,7 @@ public class EnderecamentoController implements EnderacamentoDAO {
 
 			comando.execute();
 		} catch (SQLException e) {
-			throw new RuntimeException("Error");
+			throw new RuntimeException("Error" + e.getMessage());
 		} finally {
 			MySQL.desconectar(conexao);
 		}
@@ -143,6 +141,8 @@ public class EnderecamentoController implements EnderacamentoDAO {
 
 		} catch (SQLException e) {
 			throw new RuntimeException("Erro ao realizar o delete" + e.getMessage());
+		} finally {
+			MySQL.desconectar(conexao);
 		}
 
 	}

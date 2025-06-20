@@ -81,7 +81,7 @@ public class BancoController implements BancoDAO {
 		 */
 		try {
 			comando = conexao.prepareStatement(instrucao);
-			comando.setInt(1, banco.getCodigoFebraban());
+			comando.setLong(1, banco.getCodigoFebraban());
 			comando.setString(2, banco.getNome());
 			comando.setInt(3, banco.getMascaraDeUso());
 
@@ -106,10 +106,10 @@ public class BancoController implements BancoDAO {
 		 */
 		try {
 			comando = conexao.prepareStatement(instrucao);
-			comando.setInt(1, banco.getCodigoFebraban());
+			comando.setLong(1, banco.getCodigoFebraban());
 			comando.setString(2, banco.getNome());
 			comando.setInt(3, banco.getMascaraDeUso());
-			comando.setInt(4, banco.getId());
+			comando.setLong(4, banco.getId());
 			comando.execute();
 
 		} catch (SQLException e) {

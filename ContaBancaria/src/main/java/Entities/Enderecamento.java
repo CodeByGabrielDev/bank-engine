@@ -122,8 +122,8 @@ public class Enderecamento {
 
 	@Override
 	public String toString() {
-		return "Enderecamento [id=" + id + ", cep=" + cep + ", estado=" + estado + ", municipio=" + municipio
-				+ ", bairro=" + bairro + ", logradouro=" + logradouro + "]";
+		return "Enderecamento [id=" + id + "\n, cep=" + cep + "\n, estado=" + estado + "\n, municipio=" + municipio
+				+ "\n, bairro=" + bairro + "\n, logradouro=" + logradouro + "]";
 	}
 	
 

@@ -65,10 +65,10 @@ b)	LISTA DE METODOS
 	public void setRazaoSocial(String razaoSocial) {
 		this.razaoSocial = razaoSocial;
 	}
-	public String getNomeFantansia() {
+	public String getNomeFantasia() {
 		return nomeFantansia;
 	}
-	public void setNomeFantansia(String nomeFantansia) {
+	public void setNomeFantasia(String nomeFantansia) {
 		this.nomeFantansia = nomeFantansia;
 	}
 	public Date getAbertura() {

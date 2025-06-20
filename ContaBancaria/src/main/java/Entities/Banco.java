@@ -12,8 +12,8 @@ public class Banco {
 	 * METODOS
 	 */
 
-	private int id;
-	private int codigoFebraban;
+	private long id;
+	private long codigoFebraban;
 	private String nome;
 	private int mascaraDeUso;
 
@@ -35,7 +35,7 @@ public class Banco {
 	}
 	
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 	public void setId(int id) {
@@ -43,7 +43,7 @@ public class Banco {
 	}
 	
 
-	public int getCodigoFebraban() {
+	public long getCodigoFebraban() {
 		return codigoFebraban;
 	}
 
@@ -74,7 +74,7 @@ public class Banco {
 
 	@Override
 	public String toString() {
-		return "Banco [id=" + id + ", codigoFebraban=" + codigoFebraban + ", nome=" + nome + ", mascaraDeUso="
+		return "Banco [id=" + id + "\n, codigoFebraban=" + codigoFebraban + "\n, nome=" + nome + "\n, mascaraDeUso="
 				+ mascaraDeUso + "]";
 	}
 	
