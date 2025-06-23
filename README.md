@@ -1,51 +1,61 @@
-💼 **Conta Bancária - Java Banking System**
+# 💼 **Conta Bancária - Java Banking System**
 
-**Projeto finalizado.**
-Sistema bancário desenvolvido em Java, focado na criação e gerenciamento de contas bancárias, clientes, agências e instituições financeiras. A persistência de dados é realizada com MySQL utilizando JDBC. Não há integração com frameworks como Hibernate, Spring ou qualquer interface web.
+**Projeto Finalizado**
 
-🧠 **Sobre o Projeto**
-Sistema bancário orientado a objetos, simulando a criação e o gerenciamento de contas bancárias (corrente, poupança, salário e especial), clientes, agências e instituições financeiras. O projeto segue princípios sólidos de modelagem orientada a objetos e inclui persistência de dados com MySQL.
+Este é um sistema bancário desenvolvido em Java, focado na criação e no gerenciamento de contas bancárias, clientes, agências e instituições financeiras. A persistência de dados é realizada com **MySQL** utilizando **JDBC**. Não há integração com frameworks como **Hibernate**, **Spring** ou qualquer interface web.
 
-⚙️ **Tecnologias Utilizadas**
-☕ **Java** (JDK 17)
+---
 
-📦 **Maven**
+## 🧠 **Sobre o Projeto**
 
-🔄 **Programação Orientada a Objetos (POO)**
+Este sistema bancário é orientado a objetos, simulando a criação e o gerenciamento de contas bancárias (corrente, poupança, salário e especial), clientes, agências e instituições financeiras. O projeto segue princípios sólidos de modelagem orientada a objetos e inclui persistência de dados utilizando **MySQL**.
 
-🗃️ **MySQL com JDBC**
+---
 
-🐬 **MySQL (via XAMPP e MySQL Workbench)**
+## ⚙️ **Tecnologias Utilizadas**
 
-✅ **Funcionalidades Implementadas**
-✔️ Estrutura modular com Maven
+- ☕ **Java** (JDK 17)
+- 📦 **Maven**
+- 🔄 **Programação Orientada a Objetos (POO)**
+- 🗃️ **MySQL com JDBC**
+- 🐬 **MySQL** (via XAMPP e MySQL Workbench)
 
-✔️ Entidades para contas, pessoas, agências e bancos
+---
 
-✔️ Modelagem com herança, abstração e encapsulamento
+## ✅ **Funcionalidades Implementadas**
 
-✔️ Enumerações para estados de conta e cliente
+- ✔️ Estrutura modular com **Maven**
+- ✔️ Entidades para **contas**, **pessoas**, **agências** e **bancos**
+- ✔️ Modelagem com **herança**, **abstração** e **encapsulamento**
+- ✔️ **Enumerações** para estados de **conta** e **cliente**
+- ✔️ Métodos de **débito** e **crédito** com regras de negócio básicas
+- ✔️ Relacionamento entre **titulares** e **contas**
 
-✔️ Métodos de débito e crédito com regras de negócio básicas
+---
 
-✔️ Relacionamento entre titulares e contas
+## 🔄 **Integração com Banco de Dados**
 
-🔄 **Integração com Banco de Dados**
-O projeto está integrado ao MySQL, utilizando XAMPP como servidor local e MySQL Workbench para administração e modelagem do banco de dados.
+O projeto está integrado ao **MySQL**, utilizando **XAMPP** como servidor local e **MySQL Workbench** para administração e modelagem do banco de dados.
 
-📌 **Detalhes da Integração:**
-Schema (Banco de Dados): dbcontrolecontas
+### 📌 Detalhes da Integração:
 
-Tabela utilizada: Diversas tabelas implementadas.
+- **Schema (Banco de Dados):** `dbcontrolecontas`
+- **Tabelas utilizadas:** Diversas tabelas implementadas.
+- **Ferramentas:** **XAMPP** (Apache + MySQL), **MySQL Workbench**
+- **Tipo de acesso:** via **JDBC** (driver padrão MySQL)
+- **Persistência atual:** Consultas e inserções com **PreparedStatement**
 
-Ferramentas: XAMPP (Apache + MySQL), MySQL Workbench
+---
 
-Tipo de acesso: via JDBC (driver padrão MySQL)
+## 🚧 **Tarefas Concluídas**
 
-Persistência atual: consultas e inserções com PreparedStatement
+|               Tarefa                        |        Status        |
+|---------------------------------------------|----------------------|
+| Integração com banco de dados (MySQL)       | ✅ **Finalizado**   |
+| Configuração do ambiente com XAMPP          | ✅ **Finalizado**   |
+| Scripts de criação de tabelas               | ✅ **Finalizado**   |
+| Ajustes e validações nas entidades Java     | ✅ **Finalizado**   |
 
-🚧 **Tarefas Concluídas**
-Integração com banco de dados (MySQL)	✅ Finalizado
-Configuração do ambiente com XAMPP	✅ Finalizado
-Scripts de criação de tabelas	✅ Finalizado
-Ajustes e validações nas entidades Java	✅ Finalizado
+---
+
+
