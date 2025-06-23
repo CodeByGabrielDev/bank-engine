@@ -1,65 +1,51 @@
-# 💼 Conta Bancária - Java Banking System
+💼 **Conta Bancária - Java Banking System**
 
-🚧 Projeto em desenvolvimento ativo  
-Atualizações e melhorias são realizadas frequentemente. O sistema está em fase de implementação com foco em concluir a lógica da aplicação, integração com banco de dados e, futuramente, interface web.
+**Projeto finalizado.**
+Sistema bancário desenvolvido em Java, focado na criação e gerenciamento de contas bancárias, clientes, agências e instituições financeiras. A persistência de dados é realizada com MySQL utilizando JDBC. Não há integração com frameworks como Hibernate, Spring ou qualquer interface web.
 
----
+🧠 **Sobre o Projeto**
+Sistema bancário orientado a objetos, simulando a criação e o gerenciamento de contas bancárias (corrente, poupança, salário e especial), clientes, agências e instituições financeiras. O projeto segue princípios sólidos de modelagem orientada a objetos e inclui persistência de dados com MySQL.
 
-## 🧠 Sobre o Projeto
+⚙️ **Tecnologias Utilizadas**
+☕ **Java** (JDK 17)
 
-Sistema bancário orientado a objetos em Java, com simulação de criação e gerenciamento de contas bancárias (corrente, poupança, salário e especial), clientes, agências e instituições financeiras. O projeto explora princípios sólidos de modelagem orientada a objetos e está sendo expandido para integração com banco de dados e camada web.
+📦 **Maven**
 
----
+🔄 **Programação Orientada a Objetos (POO)**
 
-## ⚙️ Tecnologias Utilizadas
+🗃️ **MySQL com JDBC**
 
-- ☕ Java (JDK 17)  
-- 📦 Maven  
-- 🔄 Programação Orientada a Objetos (POO)  
-- 🗃️ JPA + Hibernate *(em desenvolvimento)*  
-- 🐬 **MySQL com XAMPP e MySQL Workbench** *(em integração)*  
-- 🌐 Interface Web *(em planejamento)*  
+🐬 **MySQL (via XAMPP e MySQL Workbench)**
 
----
+✅ **Funcionalidades Implementadas**
+✔️ Estrutura modular com Maven
 
-## ✅ Funcionalidades Implementadas
+✔️ Entidades para contas, pessoas, agências e bancos
 
-- ✔️ Estrutura modular com Maven  
-- ✔️ Entidades para contas, pessoas, agências e bancos  
-- ✔️ Modelagem com herança, abstração e encapsulamento  
-- ✔️ Enumerações para estados de conta e cliente  
-- ✔️ Métodos de débito e crédito com regras de negócio básicas  
-- ✔️ Relacionamento entre titulares e contas  
+✔️ Modelagem com herança, abstração e encapsulamento
 
----
+✔️ Enumerações para estados de conta e cliente
 
-## 🔄 Integração com Banco de Dados
+✔️ Métodos de débito e crédito com regras de negócio básicas
 
-O projeto está sendo integrado ao **MySQL**, utilizando o **XAMPP** como ambiente de servidor local e o **MySQL Workbench** para administração e modelagem.
+✔️ Relacionamento entre titulares e contas
 
-### 📌 Detalhes da Integração:
+🔄 **Integração com Banco de Dados**
+O projeto está integrado ao MySQL, utilizando XAMPP como servidor local e MySQL Workbench para administração e modelagem do banco de dados.
 
-- **Schema (Banco de Dados):** `dbcontrolecontas`  
-- **Tabela utilizada:** `tbenderecamento`  
-- **Ferramentas:** `XAMPP` (Apache + MySQL), `MySQL Workbench`  
-- **Tipo de acesso:** via `JDBC` (driver padrão MySQL)  
-- **Persistência atual:** consultas e inserções com `PreparedStatement`  
-- **Futura integração:** com `JPA + Hibernate`
+📌 **Detalhes da Integração:**
+Schema (Banco de Dados): dbcontrolecontas
 
----
+Tabela utilizada: Diversas tabelas implementadas.
 
-## 🚧 Tarefas em Andamento
+Ferramentas: XAMPP (Apache + MySQL), MySQL Workbench
 
-| Tarefa                                       | Status          |
-|---------------------------------------------|-----------------|
-| Classe principal (main)                     | 🔧 Em construção |
-| Integração com banco de dados (MySQL)       | 🛠️ Em progresso  |
-| Configuração do ambiente com XAMPP          | ✅ Finalizado     |
-| Scripts de criação de tabelas               | 🧱 Em elaboração  |
-| Ajustes e validações nas entidades Java     | 🧪 Em ajuste      |
-| Desenvolvimento da interface Web            | 🔮 Em planejamento |
+Tipo de acesso: via JDBC (driver padrão MySQL)
 
----
+Persistência atual: consultas e inserções com PreparedStatement
 
-## 📂 Estrutura do Projeto
-
+🚧 **Tarefas Concluídas**
+Integração com banco de dados (MySQL)	✅ Finalizado
+Configuração do ambiente com XAMPP	✅ Finalizado
+Scripts de criação de tabelas	✅ Finalizado
+Ajustes e validações nas entidades Java	✅ Finalizado
